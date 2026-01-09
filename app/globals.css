@@ -1,0 +1,69 @@
+/* app/globals.css */
+
+/* Reset básico y base tipográfica */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: #f6f0e6; /* nata */
+  color: #111111;     /* negro */
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enlaces */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Botones e inputs consistentes */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+/* Evita zoom raro en iOS con inputs pequeños */
+textarea,
+input {
+  font-size: 16px;
+}
+
+/* Imágenes responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selección de texto (ligero, elegante) */
+::selection {
+  background: rgba(17, 17, 17, 0.14);
+}
+
+/* Preferencia de accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
