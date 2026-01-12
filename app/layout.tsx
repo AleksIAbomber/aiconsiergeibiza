@@ -1,65 +1,27 @@
-import type { Metadata, Viewport } from "next";
 import "./globals.css";
-
-const SITE_NAME = "AICONSIERGE Ibiza";
-const SITE_DESC =
-  "Tu concierge virtual para Ibiza: restaurantes, playas, fiesta y barco. Recomendaciones rápidas, humanas y útiles.";
-const SITE_URL = "https://aiconsiergeibiza.com";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: SITE_NAME,
-    template: `%s · ${SITE_NAME}`,
-  },
-  description: SITE_DESC,
-  applicationName: SITE_NAME,
+  title: "InfoPoint Ibiza | Qué hacer en Ibiza hoy",
+  description:
+    "InfoPoint Ibiza te recomienda restaurantes, playas, discotecas y planes en Ibiza según tu presupuesto, horario y estilo.",
   keywords: [
     "Ibiza",
-    "concierge Ibiza",
-    "planes Ibiza",
+    "qué hacer en Ibiza",
     "restaurantes Ibiza",
     "playas Ibiza",
     "discotecas Ibiza",
-    "boat party Ibiza",
-    "AI concierge",
-    "AICONSIERGE",
+    "Ibiza concierge",
   ],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
+    title: "InfoPoint Ibiza",
+    description:
+      "Tu punto de información inteligente de Ibiza con recomendaciones reales y personalizadas.",
+    url: "https://infopointibiza.com",
+    siteName: "InfoPoint Ibiza",
+    locale: "es_ES",
     type: "website",
-    url: SITE_URL,
-    title: SITE_NAME,
-    description: SITE_DESC,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "AICONSIERGE Ibiza",
-      },
-    ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_NAME,
-    description: SITE_DESC,
-    images: ["/og.png"],
-  },
-  icons: {
-    icon: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png" }],
-  },
-  manifest: "/manifest.webmanifest",
-};
-
-export const viewport: Viewport = {
-  themeColor: "#111111",
-  width: "device-width",
-  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

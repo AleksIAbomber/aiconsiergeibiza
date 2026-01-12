@@ -2,17 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-
-// Ajusta este import a tu estructura real.
-// En tu screenshot tienes data/index.ts y data/places.types.ts
-import { places } from "@/data";
-
-// Si tu endpoint real es /api/api/chat (porque tienes app/api/api/chat/route.ts)
-const API_URL = "/api/api/chat";
-// Si lo limpias a app/api/chat/route.ts, entonces usa:
-// const API_URL = "/api/chat";
-
-type Role = "user" | "assistant" | "system";
+import TypingText from "./TypingText";
+type Role = "user" | "assistant";
 
 type Msg = {
   id: string;
@@ -24,20 +15,38 @@ function uid() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+// Indicador humano de escritura (3 puntitos animados)
+function TypingIndicator({ lang }: { lang: string }) {
+  const [dots, setDots] = useState(".");
+
+  useEffect(() => {
+    const i = setInterval(() => {
+      setDots((d) => (d.length >= 3 ? "." : d + "."));
+    }, 400);
+    return () => clearInterval(i);
+  }, []);
+
+  return (
+    <div
+      style={{
+        maxWidth: "70%",
+        padding: "10px 12px",
+        borderRadius: 14,
+        background: "rgba(0,0,0,0.06)",
+        color: "black",
+        fontStyle: "italic",
+      }}
+    >
+      {lang === "es"
+        ? `Pensando para darte la mejor respuesta${dots}`
+        : `Thinking to give you the best answer${dots}`}
+    </div>
+  );
+}
+
 export default function ChatClient() {
   const sp = useSearchParams();
-
-  // Lang desde query (?lang=es). Default es.
   const lang = useMemo(() => sp.get("lang") ?? "es", [sp]);
-
-  // UI state
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  // Punto 5: memoria de “seen ids” para rotación controlada (anti repetición)
-  // Se persiste en localStorage por idioma, así cada lang tiene su rotación.
-  const storageKey = useMemo(() => `aicons_seenIds_${lang}`, [lang]);
-  const [seenIds, setSeenIds] = useState<string[]>([]);
 
   const [messages, setMessages] = useState<Msg[]>([
     {
@@ -45,113 +54,64 @@ export default function ChatClient() {
       role: "assistant",
       content:
         lang === "es"
-          ? "Hola, soy tu concierge virtual de Ibiza. Dime: cuántas personas, edad aproximada, qué buscas (discoteca/playa/restaurante/barco/actividades), vestuario y si quieres lugares LGBT-friendly."
-          : "Hi! I’m your Ibiza concierge. Tell me: group size, approx age, what you want (clubs/beach/restaurant/boat/activities), dress code and whether you want LGBT-friendly options.",
+          ? "Hola, soy tu concierge virtual de Ibiza. Dime cuántas personas sois, presupuesto aproximado y qué tipo de plan buscas."
+          : "Hi! I’m your Ibiza concierge. Tell me group size, budget and what kind of plan you want.",
     },
   ]);
 
-  // Scroll abajo
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
-
-  // Cargar seenIds desde localStorage
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) setSeenIds(parsed.filter((x) => typeof x === "string"));
-    } catch {
-      // ignore
-    }
-  }, [storageKey]);
-
-  // Guardar seenIds
-  useEffect(() => {
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(seenIds));
-    } catch {
-      // ignore
-    }
-  }, [seenIds, storageKey]);
-
-  function addUserMessage(text: string) {
-    setMessages((prev) => [...prev, { id: uid(), role: "user", content: text }]);
-  }
-
-  function addAssistantMessage(text: string) {
-    setMessages((prev) => [...prev, { id: uid(), role: "assistant", content: text }]);
-  }
-
-  function resetSeenIds() {
-    setSeenIds([]);
-  }
 
   async function send() {
     const text = input.trim();
     if (!text || loading) return;
 
     setInput("");
-    addUserMessage(text);
+    setMessages((prev) => [...prev, { id: uid(), role: "user", content: text }]);
     setLoading(true);
 
     try {
-      // Aquí pasamos:
-      // - messages recientes (historial)
-      // - lang
-      // - seenIds (punto 5)
-      // - places (tu DB local)
-      //
-      // IMPORTANTE: el backend decidirá qué recomendar usando places + seenIds.
-      const payload = {
-        lang,
-        userText: text,
-        history: messages.map((m) => ({ role: m.role, content: m.content })).slice(-12),
-        seenIds,
-        places, // DB
-      };
-
-      const res = await fetch(API_URL, {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          lang,
+          messages: [...messages, { id: uid(), role: "user", content: text }],
+        }),
       });
 
       if (!res.ok) {
-        const errText = await res.text().catch(() => "");
-        throw new Error(errText || `HTTP ${res.status}`);
+        throw new Error(`HTTP ${res.status}`);
       }
 
-      const data = (await res.json()) as {
-        reply: string;
-        usedIds?: string[];
-        // opcional: si tu backend devuelve recomendaciones estructuradas
-        // picks?: { id: string; name: string; why: string }[];
-      };
+      const data = (await res.json()) as { reply: string };
 
-      // Mensaje del bot
-      addAssistantMessage(data.reply || "OK");
-
-      // Punto 5: actualizar seenIds con los ids usados en esta respuesta (si backend los devuelve)
-    const usedIds = Array.isArray(data.usedIds) ? data.usedIds : [];
-
-if (usedIds.length > 0) {
-  setSeenIds((prev) => {
-    const merged = [...prev];
-    for (const id of usedIds) {
-      if (typeof id === "string" && !merged.includes(id)) merged.push(id);
-    }
-    return merged.slice(-300);
-  });
-}
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: uid(),
+          role: "assistant",
+          content: data.reply || "OK",
+        },
+      ]);
     } catch (e: any) {
-      addAssistantMessage(
-        lang === "es"
-          ? `Error del servidor: ${e?.message ?? "desconocido"}`
-          : `Server error: ${e?.message ?? "unknown"}`
-      );
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: uid(),
+          role: "assistant",
+          content:
+            lang === "es"
+              ? "Ha habido un error. Inténtalo de nuevo."
+              : "There was an error. Please try again.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -160,7 +120,7 @@ if (usedIds.length > 0) {
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      void send();
+      send();
     }
   }
 
@@ -177,33 +137,16 @@ if (usedIds.length > 0) {
           border: "1px solid rgba(0,0,0,0.08)",
           borderRadius: 16,
           padding: 18,
-          background: "rgba(255,255,255,0.6)",
-          backdropFilter: "blur(8px)",
+          background: "rgba(255,255,255,0.7)",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 800 }}>AIConcierge Ibiza</div>
-            <div style={{ fontSize: 12, opacity: 0.65 }}>Lang: {lang}</div>
+        <div style={{ marginBottom: 12 }}>
+          <h1 style={{ fontSize: 20, fontWeight: 800 }}>
+            AIConcierge Ibiza
+          </h1>
+          <div style={{ fontSize: 12, opacity: 0.6 }}>
+            Lang: {lang}
           </div>
-
-          <button
-            onClick={resetSeenIds}
-            type="button"
-            style={{
-              borderRadius: 999,
-              padding: "8px 12px",
-              border: "1px solid rgba(0,0,0,0.14)",
-              background: "white",
-              cursor: "pointer",
-              height: 36,
-              fontSize: 12,
-              fontWeight: 700,
-            }}
-            title="Reiniciar rotación (anti repetición)"
-          >
-            Reset rotación
-          </button>
         </div>
 
         <div
@@ -214,7 +157,7 @@ if (usedIds.length > 0) {
             minHeight: 420,
             maxHeight: "60vh",
             overflow: "auto",
-            background: "rgba(250,250,250,0.85)",
+            background: "rgba(250,250,250,0.9)",
           }}
         >
           {messages.map((m) => (
@@ -222,84 +165,82 @@ if (usedIds.length > 0) {
               key={m.id}
               style={{
                 display: "flex",
-                justifyContent: m.role === "user" ? "flex-end" : "flex-start",
+                justifyContent:
+                  m.role === "user" ? "flex-end" : "flex-start",
                 marginBottom: 10,
               }}
             >
               <div
-                style={{
-                  maxWidth: "78%",
-                  padding: "10px 12px",
-                  borderRadius: 14,
-                  background: m.role === "user" ? "#111" : "rgba(0,0,0,0.06)",
-                  color: m.role === "user" ? "white" : "black",
-                  lineHeight: 1.35,
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {m.content}
+  className="chat-bubble"
+  style={{
+    maxWidth: "78%",
+    padding: "10px 12px",
+    borderRadius: 14,
+    background: m.role === "user" ? "#111" : "rgba(0,0,0,0.06)",
+    color: m.role === "user" ? "white" : "black",
+    lineHeight: 1.35,
+    whiteSpace: "pre-wrap",
+  }}
+>
+              
+                {m.role === "assistant" ? (
+  <TypingText text={m.content} />
+) : (
+  m.content
+)}
               </div>
             </div>
           ))}
 
           {loading && (
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
-              <div
-                style={{
-                  maxWidth: "78%",
-                  padding: "10px 12px",
-                  borderRadius: 14,
-                  background: "rgba(0,0,0,0.06)",
-                  color: "black",
-                }}
-              >
-                {lang === "es" ? "Pensando..." : "Thinking..."}
-              </div>
+              <TypingIndicator lang={lang} />
             </div>
           )}
 
           <div ref={bottomRef} />
         </div>
 
-        <div style={{ marginTop: 12, display: "flex", gap: 10, alignItems: "flex-end" }}>
+        <div style={{ marginTop: 12, display: "flex", gap: 10 }}>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder={lang === "es" ? "Escribe aquí… (Enter para enviar, Shift+Enter salto)" : "Type here…"}
             rows={2}
+            placeholder={
+              lang === "es"
+                ? "Escribe aquí… (Enter para enviar)"
+                : "Type here… (Enter to send)"
+            }
             style={{
               flex: 1,
               resize: "none",
               borderRadius: 12,
-              border: "1px solid rgba(0,0,0,0.16)",
+              border: "1px solid rgba(0,0,0,0.2)",
               padding: 12,
               fontSize: 14,
-              outline: "none",
-              background: "white",
             }}
           />
 
           <button
-            onClick={() => void send()}
+            onClick={send}
             disabled={loading || !input.trim()}
             style={{
               borderRadius: 12,
               padding: "12px 16px",
-              border: "1px solid rgba(0,0,0,0.14)",
-              background: loading || !input.trim() ? "rgba(0,0,0,0.08)" : "#111",
-              color: loading || !input.trim() ? "rgba(0,0,0,0.5)" : "white",
-              cursor: loading || !input.trim() ? "not-allowed" : "pointer",
-              fontWeight: 800,
-              minWidth: 110,
+              border: "none",
+              background:
+                loading || !input.trim() ? "#ccc" : "#111",
+              color: "white",
+              fontWeight: 700,
+              cursor:
+                loading || !input.trim()
+                  ? "not-allowed"
+                  : "pointer",
             }}
           >
             {lang === "es" ? "Enviar" : "Send"}
           </button>
-        </div>
-
-        <div style={{ marginTop: 10, fontSize: 12, opacity: 0.65 }}>
-          seenIds guardados: {seenIds.length}
         </div>
       </div>
     </main>

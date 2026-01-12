@@ -1,12 +1,21 @@
 "use client";
 
-import { LANGS, Lang } from "./i18n";
+import type { Lang } from "./i18n";
 
 type Props = {
   lang: Lang;
   onChange: (l: Lang) => void;
   compact?: boolean;
 };
+
+const LANGS: { code: Lang; label: string }[] = [
+  { code: "es", label: "ES" },
+  { code: "en", label: "EN" },
+  { code: "it", label: "IT" },
+  { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
+  { code: "nl", label: "NL" },
+];
 
 export default function LanguagePicker({ lang, onChange, compact }: Props) {
   return (

@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://aiconsiergeibiza.com/sitemap.xml",
-    host: "https://aiconsiergeibiza.com",
+    sitemap: "https://infopointibiza.com/sitemap.xml",
+    host: "https://infopointibiza.com",
   };
 }

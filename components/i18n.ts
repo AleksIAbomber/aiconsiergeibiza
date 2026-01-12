@@ -1,156 +1,415 @@
-export type Lang = "es" | "en" | "it" | "fr" | "de";
+export type Lang = "es" | "en" | "it" | "fr" | "de" | "nl";
 
-export const LANGS: { code: Lang; label: string }[] = [
-  { code: "es", label: "ES" },
-  { code: "en", label: "EN" },
-  { code: "it", label: "IT" },
-  { code: "fr", label: "FR" },
-  { code: "de", label: "DE" },
-];
+type HomeCopy = {
+  brandName: string;
+  brandTagline: string;
 
-export const t = (lang: Lang) => {
-  const dict: Record<Lang, any> = {
-    es: {
-      brandTagline: "Tu concierge virtual para Ibiza. Recomendaciones rápidas, humanas y útiles.",
-      heroTitle: "Entra al chat y te lo organizo en 20 segundos",
-      heroDesc:
-        "Dime qué buscas (restaurante, playa, fiesta, barco), presupuesto, vibe, vestuario, zona/hora y si quieres opciones LGBT-friendly.",
-      startChat: "Empezar chat",
-      goDirect: "Ir directo (sin anuncio)",
-      adLabel: "Publicidad (no invasiva)",
-      adBox: "Banner (AdSense)",
-      cardsTitle: "Explora rápido",
-      restaurants: "Restaurantes",
-      restaurantsDesc: "Romántico, vegano, sushi, lujo o barato.",
-      beaches: "Playas",
-      beachesDesc: "Tranquilas, bonitas, fiesteras, parking y vibe.",
-      party: "Fiesta",
-      partyDesc: "Clubs, entradas, dress code y energía.",
-      boat: "Barco",
-      boatDesc: "Sunset, party boat, calas y experiencias.",
-      areasTitle: "Zonas típicas",
-      ctaPartner: "Anúnciate aquí",
-      ctaPartnerSmall: "Partnership / Patrocinio",
-      chatTitle: "Chat con AICONSIERGE",
-      chatSub: "Ibiza-only · Máx. 3 recomendaciones · Estilo PR humano",
-      chatHint:
-        "Para afinar: sexo, nº personas, edad, plan, presupuesto, zona/hora, vestuario, vibe y si quieres LGBT-friendly.",
-      send: "Enviar",
-      quick: { restaurants: "Restaurantes", beaches: "Playas", party: "Fiesta", boat: "Barco" },
-    },
-    en: {
-      brandTagline: "Your Ibiza virtual concierge. Fast, human, useful recommendations.",
-      heroTitle: "Jump into chat — I’ll sort it in 20 seconds",
-      heroDesc:
-        "Tell me what you want (restaurant, beach, party, boat), budget, vibe, outfit, area/time, and if you want LGBT-friendly options.",
-      startChat: "Start chat",
-      goDirect: "Go direct (no ad)",
-      adLabel: "Advertising (non-intrusive)",
-      adBox: "Banner (AdSense)",
-      cardsTitle: "Quick picks",
-      restaurants: "Restaurants",
-      restaurantsDesc: "Romantic, vegan, sushi, luxury or budget.",
-      beaches: "Beaches",
-      beachesDesc: "Chill, beautiful, party, parking and vibe.",
-      party: "Party",
-      partyDesc: "Clubs, tickets, dress code and energy.",
-      boat: "Boat",
-      boatDesc: "Sunset, party boat, coves and experiences.",
-      areasTitle: "Popular areas",
-      ctaPartner: "Advertise here",
-      ctaPartnerSmall: "Partnership / Sponsor",
-      chatTitle: "Chat with AICONSIERGE",
-      chatSub: "Ibiza-only · Max 3 recommendations · Human PR style",
-      chatHint:
-        "To tailor it: gender, group size, age range, plan, budget, area/time, outfit, vibe, LGBT-friendly preference.",
-      send: "Send",
-      quick: { restaurants: "Restaurants", beaches: "Beaches", party: "Party", boat: "Boat" },
-    },
-    it: {
-      brandTagline: "Il tuo concierge virtuale per Ibiza. Consigli rapidi, umani e utili.",
-      heroTitle: "Entra in chat — te lo organizzo in 20 secondi",
-      heroDesc:
-        "Dimmi cosa cerchi (ristorante, spiaggia, festa, barca), budget, vibe, outfit, zona/orario e se vuoi opzioni LGBT-friendly.",
-      startChat: "Avvia chat",
-      goDirect: "Vai diretto (senza annuncio)",
-      adLabel: "Pubblicità (non invasiva)",
-      adBox: "Banner (AdSense)",
-      cardsTitle: "Scelte rapide",
-      restaurants: "Ristoranti",
-      restaurantsDesc: "Romantico, vegano, sushi, lusso o economico.",
-      beaches: "Spiagge",
-      beachesDesc: "Relax, belle, festive, parcheggio e vibe.",
-      party: "Festa",
-      partyDesc: "Club, biglietti, dress code ed energia.",
-      boat: "Barca",
-      boatDesc: "Tramonto, party boat, calette ed esperienze.",
-      areasTitle: "Zone tipiche",
-      ctaPartner: "Pubblicizzati qui",
-      ctaPartnerSmall: "Partnership / Sponsor",
-      chatTitle: "Chat con AICONSIERGE",
-      chatSub: "Solo Ibiza · Max 3 consigli · Stile PR umano",
-      chatHint:
-        "Per personalizzare: genere, n° persone, età, piano, budget, zona/orario, outfit, vibe, preferenza LGBT-friendly.",
-      send: "Invia",
-      quick: { restaurants: "Ristoranti", beaches: "Spiagge", party: "Festa", boat: "Barca" },
-    },
-    fr: {
-      brandTagline: "Votre concierge virtuel à Ibiza. Recos rapides, humaines et utiles.",
-      heroTitle: "Entrez dans le chat — je vous organise ça en 20 secondes",
-      heroDesc:
-        "Dites-moi ce que vous cherchez (restaurant, plage, soirée, bateau), budget, vibe, tenue, zone/heure et si vous voulez du LGBT-friendly.",
-      startChat: "Démarrer le chat",
-      goDirect: "Aller direct (sans pub)",
-      adLabel: "Publicité (non intrusive)",
-      adBox: "Bannière (AdSense)",
-      cardsTitle: "Choix rapides",
-      restaurants: "Restaurants",
-      restaurantsDesc: "Romantique, vegan, sushi, luxe ou budget.",
-      beaches: "Plages",
-      beachesDesc: "Calmes, belles, festives, parking et vibe.",
-      party: "Soirée",
-      partyDesc: "Clubs, billets, dress code et énergie.",
-      boat: "Bateau",
-      boatDesc: "Sunset, party boat, criques et expériences.",
-      areasTitle: "Zones typiques",
-      ctaPartner: "Annoncez ici",
-      ctaPartnerSmall: "Partenariat / Sponsor",
-      chatTitle: "Chat avec AICONSIERGE",
-      chatSub: "Ibiza-only · Max 3 recos · Style PR humain",
-      chatHint:
-        "Pour affiner: genre, nb personnes, âge, plan, budget, zone/heure, tenue, vibe, préférence LGBT-friendly.",
-      send: "Envoyer",
-      quick: { restaurants: "Restaurants", beaches: "Plages", party: "Soirée", boat: "Bateau" },
-    },
-    de: {
-      brandTagline: "Dein virtueller Ibiza-Concierge. Schnell, menschlich, nützlich.",
-      heroTitle: "Ab in den Chat — in 20 Sekunden ist es geplant",
-      heroDesc:
-        "Sag mir: (Restaurant, Strand, Party, Boot), Budget, Vibe, Outfit, Gegend/Uhrzeit und ob LGBT-friendly gewünscht ist.",
-      startChat: "Chat starten",
-      goDirect: "Direkt (ohne Werbung)",
-      adLabel: "Werbung (nicht aufdringlich)",
-      adBox: "Banner (AdSense)",
-      cardsTitle: "Schnell wählen",
-      restaurants: "Restaurants",
-      restaurantsDesc: "Romantisch, vegan, Sushi, Luxus oder günstig.",
-      beaches: "Strände",
-      beachesDesc: "Ruhig, schön, Party, Parken und Vibe.",
-      party: "Party",
-      partyDesc: "Clubs, Tickets, Dresscode und Energie.",
-      boat: "Boot",
-      boatDesc: "Sunset, Party-Boot, Buchten und Erlebnisse.",
-      areasTitle: "Typische Zonen",
-      ctaPartner: "Hier werben",
-      ctaPartnerSmall: "Partnerschaft / Sponsor",
-      chatTitle: "Chat mit AICONSIERGE",
-      chatSub: "Nur Ibiza · Max 3 Empfehlungen · Human-PR-Stil",
-      chatHint:
-        "Zum Feintuning: Geschlecht, Gruppe, Alter, Plan, Budget, Gegend/Uhrzeit, Outfit, Vibe, LGBT-friendly Wunsch.",
-      send: "Senden",
-      quick: { restaurants: "Restaurants", beaches: "Strände", party: "Party", boat: "Boot" },
-    },
-  };
+  heroTitle: string;
+  heroDesc: string;
 
-  return dict[lang];
+  startChat: string;
+  goDirect: string;
+  faqLink: string;
+
+  adLabel: string;
+  adBox: string;
+
+  cardsTitle: string;
+
+  restaurants: string;
+  restaurantsDesc: string;
+
+  beaches: string;
+  beachesDesc: string;
+
+  party: string;
+  partyDesc: string;
+
+  boat: string;
+  boatDesc: string;
 };
+
+type FAQItem = { q: string; a: string };
+
+type FAQCopy = {
+  title: string;
+  intro: string;
+  items: FAQItem[];
+  cta: string;
+};
+
+type Copy = HomeCopy & { faq: FAQCopy };
+
+const COPY: Record<Lang, Copy> = {
+  es: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "Tu guía inteligente para vivir Ibiza a tu manera.",
+
+    heroTitle: "Cuéntame el plan… yo me encargo del resto.",
+    heroDesc:
+      "Dime qué te apetece hoy, con quién vienes y qué rollo buscas. Te propongo sitios y planes que encajen contigo, sin vueltas ni búsquedas eternas.",
+
+    startChat: "Hablar con el concierge",
+    goDirect: "Ver ideas rápido",
+    faqLink: "Preguntas frecuentes (FAQ)",
+
+    adLabel: "Publicidad (demo)",
+    adBox: "Aquí irá un banner no invasivo",
+
+    cardsTitle: "Explora rápido",
+
+    restaurants: "Restaurantes",
+    restaurantsDesc: "Desde tapas hasta sitios top: dime tu vibe y presupuesto.",
+
+    beaches: "Playas",
+    beachesDesc: "Tranquila, bonita, con chiringuito o más fiestera: tú eliges.",
+
+    party: "Discotecas",
+    partyDesc: "Techno, comercial, open-air, cabaret… te ubico según tu estilo.",
+
+    boat: "Barcos",
+    boatDesc: "Atardecer, day party o relax: te recomiendo lo que encaja contigo.",
+
+    faq: {
+      title: "Preguntas frecuentes",
+      intro:
+        "Respuestas rápidas para entender cómo funciona InfoPoint Ibiza y sacarle el máximo partido.",
+      items: [
+        {
+          q: "¿InfoPoint Ibiza es gratuito?",
+          a: "Sí. El uso básico es gratuito para el usuario.",
+        },
+        {
+          q: "¿Qué tipo de recomendaciones ofrece?",
+          a: "Restaurantes, playas, discotecas, barcos y actividades en Ibiza, adaptadas a tu estilo.",
+        },
+        {
+          q: "¿Las recomendaciones son reales?",
+          a: "Sí. Trabajamos con una base de datos curada de lugares reales. Si algo no encaja, te hago una pregunta para afinar.",
+        },
+        {
+          q: "¿La IA inventa lugares?",
+          a: "La idea es que no: priorizamos datos curados y reglas para evitar inventar. Si falta info, te pedirá un detalle.",
+        },
+        {
+          q: "¿Necesito registrarme?",
+          a: "No. Puedes usarlo sin registro.",
+        },
+        {
+          q: "¿Qué significa LGBT-friendly?",
+          a: "Que el lugar suele ser especialmente acogedor con el público LGBT+ o popular dentro de esa comunidad.",
+        },
+        {
+          q: "¿Cómo puedo sugerir cambios o corregir info?",
+          a: "Escríbenos por WhatsApp desde el botón de contacto y lo revisamos.",
+        },
+      ],
+      cta:
+        "¿No encuentras tu duda? Entra al chat y cuéntame qué buscas, o escríbenos por WhatsApp.",
+    },
+  },
+
+  en: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "Your smart guide to Ibiza, your way.",
+
+    heroTitle: "Tell me the vibe… I’ll handle the rest.",
+    heroDesc:
+      "Tell me what you feel like today, who you’re with, and the mood you want. I’ll suggest places and plans that fit you—no endless searching.",
+
+    startChat: "Chat with the concierge",
+    goDirect: "Quick ideas",
+    faqLink: "FAQ",
+
+    adLabel: "Ads (demo)",
+    adBox: "A non-intrusive banner will go here",
+
+    cardsTitle: "Explore fast",
+
+    restaurants: "Restaurants",
+    restaurantsDesc: "From tapas to top spots—tell me your vibe and budget.",
+
+    beaches: "Beaches",
+    beachesDesc: "Chill, beautiful, beach club or party—your call.",
+
+    party: "Clubs",
+    partyDesc: "Techno, mainstream, open-air, cabaret… matched to your style.",
+
+    boat: "Boats",
+    boatDesc: "Sunset, day party or relaxed cruising—pick your mood.",
+
+    faq: {
+      title: "Frequently asked questions",
+      intro: "Quick answers about how InfoPoint Ibiza works.",
+      items: [
+        { q: "Is InfoPoint Ibiza free?", a: "Yes. Basic use is free for users." },
+        {
+          q: "What do you recommend?",
+          a: "Restaurants, beaches, clubs, boats and activities in Ibiza—tailored to your style.",
+        },
+        {
+          q: "Are recommendations real?",
+          a: "Yes. We use a curated database of real places. If details are missing, we’ll ask to refine.",
+        },
+        {
+          q: "Does the AI invent places?",
+          a: "We aim not to: curated data + rules to avoid hallucinations. If unsure, it will ask a question.",
+        },
+        { q: "Do I need to sign up?", a: "No registration needed." },
+        {
+          q: "What does LGBT-friendly mean?",
+          a: "Places known to be welcoming and popular within the LGBT+ community.",
+        },
+        {
+          q: "How can I suggest updates?",
+          a: "Message us on WhatsApp via the contact button and we’ll review it.",
+        },
+      ],
+      cta: "Still have questions? Jump into the chat or message us on WhatsApp.",
+    },
+  },
+
+  it: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "La tua guida smart per vivere Ibiza a modo tuo.",
+
+    heroTitle: "Dimmi che vibe vuoi… al resto penso io.",
+    heroDesc:
+      "Dimmi cosa ti va oggi, con chi sei e che atmosfera cerchi. Ti propongo posti e piani adatti a te, senza perdere tempo.",
+
+    startChat: "Parla con il concierge",
+    goDirect: "Idee rapide",
+    faqLink: "FAQ",
+
+    adLabel: "Pubblicità (demo)",
+    adBox: "Qui andrà un banner non invasivo",
+
+    cardsTitle: "Esplora subito",
+
+    restaurants: "Ristoranti",
+    restaurantsDesc: "Dalle tapas ai posti top: vibe e budget e ci penso io.",
+
+    beaches: "Spiagge",
+    beachesDesc: "Relax, belle, chiringuito o più party: come preferisci.",
+
+    party: "Club",
+    partyDesc: "Techno, commerciale, open-air, cabaret… in base al tuo stile.",
+
+    boat: "Barche",
+    boatDesc: "Tramonto, day party o relax: ti consiglio quello giusto.",
+
+    faq: {
+      title: "Domande frequenti",
+      intro: "Risposte rapide su come funziona InfoPoint Ibiza.",
+      items: [
+        { q: "È gratuito?", a: "Sì. L’uso base è gratuito." },
+        {
+          q: "Cosa consigli?",
+          a: "Ristoranti, spiagge, club, barche e attività a Ibiza, su misura per te.",
+        },
+        {
+          q: "I consigli sono reali?",
+          a: "Sì. Usiamo un database curato di posti reali. Se manca un dettaglio, te lo chiediamo.",
+        },
+        {
+          q: "L’IA inventa posti?",
+          a: "Cerchiamo di evitarlo: dati curati + regole. Se non è chiaro, faremo una domanda.",
+        },
+        { q: "Serve registrarsi?", a: "No, non serve." },
+        {
+          q: "Cosa significa LGBT-friendly?",
+          a: "Luoghi noti per essere accoglienti e popolari nella comunità LGBT+.",
+        },
+        {
+          q: "Come segnalo aggiornamenti?",
+          a: "Scrivici su WhatsApp dal pulsante di contatto.",
+        },
+      ],
+      cta: "Non trovi la risposta? Entra in chat o scrivici su WhatsApp.",
+    },
+  },
+
+  fr: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "Ton guide intelligent pour vivre Ibiza à ta façon.",
+
+    heroTitle: "Dis-moi ton plan… je m’occupe du reste.",
+    heroDesc:
+      "Dis-moi ce que tu veux faire aujourd’hui, avec qui tu es et l’ambiance que tu cherches. Je te propose des lieux qui te correspondent, sans perte de temps.",
+
+    startChat: "Parler au concierge",
+    goDirect: "Idées rapides",
+    faqLink: "FAQ",
+
+    adLabel: "Publicité (démo)",
+    adBox: "Ici, un banner discret",
+
+    cardsTitle: "Explorer vite",
+
+    restaurants: "Restaurants",
+    restaurantsDesc: "Tapas ou spots top : dis-moi ton style et ton budget.",
+
+    beaches: "Plages",
+    beachesDesc: "Calme, belle, beach club ou plus festive : à toi de voir.",
+
+    party: "Clubs",
+    partyDesc: "Techno, commercial, open-air, cabaret… selon ton style.",
+
+    boat: "Bateaux",
+    boatDesc: "Sunset, day party ou chill : je te guide.",
+
+    faq: {
+      title: "Questions fréquentes",
+      intro: "Réponses rapides sur InfoPoint Ibiza.",
+      items: [
+        { q: "C’est gratuit ?", a: "Oui. L’usage de base est gratuit." },
+        {
+          q: "Que recommandez-vous ?",
+          a: "Restaurants, plages, clubs, bateaux et activités à Ibiza, selon ton style.",
+        },
+        {
+          q: "Les recommandations sont-elles réelles ?",
+          a: "Oui. Base de données de lieux réels + questions si besoin pour affiner.",
+        },
+        {
+          q: "L’IA invente-t-elle des lieux ?",
+          a: "On évite : données curées + règles. Si c’est flou, on te posera une question.",
+        },
+        { q: "Faut-il s’inscrire ?", a: "Non, pas besoin." },
+        {
+          q: "LGBT-friendly, ça veut dire quoi ?",
+          a: "Des lieux connus pour être accueillants et populaires auprès de la communauté LGBT+.",
+        },
+        {
+          q: "Comment proposer une correction ?",
+          a: "Écris-nous sur WhatsApp via le bouton de contact.",
+        },
+      ],
+      cta: "Tu ne trouves pas ? Va au chat ou écris-nous sur WhatsApp.",
+    },
+  },
+
+  de: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "Dein smarter Guide für Ibiza – so wie du es willst.",
+
+    heroTitle: "Sag mir den Vibe… ich kümmere mich um den Rest.",
+    heroDesc:
+      "Sag mir, worauf du heute Lust hast, mit wem du unterwegs bist und welche Stimmung du willst. Ich schlage dir passende Spots vor – ohne endloses Suchen.",
+
+    startChat: "Mit dem Concierge chatten",
+    goDirect: "Schnelle Ideen",
+    faqLink: "FAQ",
+
+    adLabel: "Werbung (Demo)",
+    adBox: "Hier kommt ein dezenter Banner hin",
+
+    cardsTitle: "Schnell entdecken",
+
+    restaurants: "Restaurants",
+    restaurantsDesc: "Von Tapas bis Top-Spots: Vibe + Budget, und ich helfe.",
+
+    beaches: "Strände",
+    beachesDesc: "Chillig, schön, Beach Club oder Party – wie du magst.",
+
+    party: "Clubs",
+    partyDesc: "Techno, Mainstream, Open-Air, Cabaret… passend zu deinem Stil.",
+
+    boat: "Boote",
+    boatDesc: "Sunset, Day Party oder entspannt – ich empfehle dir das Richtige.",
+
+    faq: {
+      title: "Häufige Fragen",
+      intro: "Kurze Antworten zu InfoPoint Ibiza.",
+      items: [
+        { q: "Ist es kostenlos?", a: "Ja. Die Basisnutzung ist kostenlos." },
+        {
+          q: "Was empfiehlst du?",
+          a: "Restaurants, Strände, Clubs, Boote und Aktivitäten auf Ibiza – personalisiert.",
+        },
+        {
+          q: "Sind die Empfehlungen real?",
+          a: "Ja. Kuratierte Datenbank realer Orte + Rückfragen, wenn etwas fehlt.",
+        },
+        {
+          q: "Erfindet die KI Orte?",
+          a: "Wir versuchen das zu vermeiden: kuratierte Daten + Regeln. Wenn unklar, fragen wir nach.",
+        },
+        { q: "Muss ich mich registrieren?", a: "Nein." },
+        {
+          q: "Was bedeutet LGBT-friendly?",
+          a: "Orte, die als besonders offen und beliebt in der LGBT+ Community gelten.",
+        },
+        {
+          q: "Wie kann ich Updates vorschlagen?",
+          a: "Schreib uns per WhatsApp über den Kontakt-Button.",
+        },
+      ],
+      cta: "Noch Fragen? Starte den Chat oder schreib uns auf WhatsApp.",
+    },
+  },
+
+  nl: {
+    brandName: "InfoPoint Ibiza",
+    brandTagline: "Jouw slimme gids voor Ibiza, precies zoals jij het wilt.",
+
+    heroTitle: "Vertel me je vibe… ik regel de rest.",
+    heroDesc:
+      "Zeg wat je vandaag wilt doen, met wie je bent en welke sfeer je zoekt. Ik geef je passende spots en plannen—zonder eindeloos zoeken.",
+
+    startChat: "Chat met de concierge",
+    goDirect: "Snelle ideeën",
+    faqLink: "FAQ",
+
+    adLabel: "Advertentie (demo)",
+    adBox: "Hier komt een niet-opdringerige banner",
+
+    cardsTitle: "Snel ontdekken",
+
+    restaurants: "Restaurants",
+    restaurantsDesc: "Van tapas tot top spots: vertel je vibe en budget.",
+
+    beaches: "Stranden",
+    beachesDesc: "Rustig, mooi, beach club of party—jij kiest.",
+
+    party: "Clubs",
+    partyDesc: "Techno, mainstream, open-air, cabaret… afgestemd op jouw stijl.",
+
+    boat: "Boten",
+    boatDesc: "Sunset, day party of relaxed—ik help je kiezen.",
+
+    faq: {
+      title: "Veelgestelde vragen",
+      intro: "Snelle antwoorden over hoe InfoPoint Ibiza werkt.",
+      items: [
+        { q: "Is het gratis?", a: "Ja. Basisgebruik is gratis voor gebruikers." },
+        {
+          q: "Wat kun je aanbevelen?",
+          a: "Restaurants, stranden, clubs, boten en activiteiten op Ibiza—op jouw stijl afgestemd.",
+        },
+        {
+          q: "Zijn aanbevelingen echt?",
+          a: "Ja. We gebruiken een samengestelde database met echte plekken. Als iets ontbreekt, vragen we door.",
+        },
+        {
+          q: "Verzint de AI plekken?",
+          a: "We proberen dat te voorkomen: curated data + regels. Als het niet duidelijk is, stellen we een vraag.",
+        },
+        { q: "Moet ik me registreren?", a: "Nee, dat hoeft niet." },
+        {
+          q: "Wat betekent LGBT-friendly?",
+          a: "Plekken die bekendstaan als extra welkom en populair binnen de LGBT+ community.",
+        },
+        {
+          q: "Hoe geef ik updates door?",
+          a: "Stuur ons een WhatsApp via de contactknop en we checken het.",
+        },
+      ],
+      cta: "Nog vragen? Start de chat of stuur ons een WhatsApp.",
+    },
+  },
+};
+
+export function t(lang: Lang): Copy {
+  return COPY[lang] ?? COPY.es;
+}
