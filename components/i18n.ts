@@ -38,13 +38,21 @@ type FAQCopy = {
   cta: string;
 };
 
-type Copy = HomeCopy & { faq: FAQCopy };
+type Copy = HomeCopy & {
+  chatBrandTitle: string;
+  chatBrandSubtitle: string;
+  chatWelcome: string;
+  faq: FAQCopy;
+};
 
 const COPY: Record<Lang, Copy> = {
   es: {
     brandName: "InfoPoint Ibiza",
     brandTagline: "Tu guía inteligente para vivir Ibiza a tu manera.",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "Tu guía local, aquí para ayudarte",
+    chatWelcome:
+      "Hola, soy tu guía local de Ibiza. Dime cuántos sois, presupuesto por persona y qué plan buscas (playa, restaurante, fiesta, barco o actividades).",
     heroTitle: "Cuéntame el plan… yo me encargo del resto.",
     heroDesc:
       "Dime qué te apetece hoy, con quién vienes y qué rollo buscas. Te propongo sitios y planes que encajen contigo, sin vueltas ni búsquedas eternas.",
@@ -112,7 +120,10 @@ const COPY: Record<Lang, Copy> = {
   en: {
     brandName: "InfoPoint Ibiza",
     brandTagline: "Your smart guide to Ibiza, your way.",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "Your local guide, here to help",
+    chatWelcome:
+      "Hi, I’m your local Ibiza guide. Tell me your group size, budget per person, and what you’re looking for (beach, restaurant, party, boat, or activities).",
     heroTitle: "Tell me the vibe… I’ll handle the rest.",
     heroDesc:
       "Tell me what you feel like today, who you’re with, and the mood you want. I’ll suggest places and plans that fit you—no endless searching.",
@@ -172,7 +183,10 @@ const COPY: Record<Lang, Copy> = {
   it: {
     brandName: "InfoPoint Ibiza",
     brandTagline: "La tua guida smart per vivere Ibiza a modo tuo.",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "La tua guida locale, qui per aiutarti",
+    chatWelcome:
+      "Ciao, sono la tua guida locale a Ibiza. Dimmi in quanti siete, budget a persona e che tipo di piano cerchi (spiaggia, ristorante, party, barca o attività).",
     heroTitle: "Dimmi che vibe vuoi… al resto penso io.",
     heroDesc:
       "Dimmi cosa ti va oggi, con chi sei e che atmosfera cerchi. Ti propongo posti e piani adatti a te, senza perdere tempo.",
@@ -236,7 +250,10 @@ const COPY: Record<Lang, Copy> = {
     heroTitle: "Dis-moi ton plan… je m’occupe du reste.",
     heroDesc:
       "Dis-moi ce que tu veux faire aujourd’hui, avec qui tu es et l’ambiance que tu cherches. Je te propose des lieux qui te correspondent, sans perte de temps.",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "Ton guide local, là pour t’aider",
+    chatWelcome:
+      "Salut, je suis ton guide local à Ibiza. Dis-moi combien vous êtes, le budget par personne et ce que tu cherches (plage, resto, soirée, bateau ou activités).",
     startChat: "Parler au concierge",
     goDirect: "Idées rapides",
     faqLink: "FAQ",
@@ -300,7 +317,10 @@ const COPY: Record<Lang, Copy> = {
     startChat: "Mit dem Concierge chatten",
     goDirect: "Schnelle Ideen",
     faqLink: "FAQ",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "Dein lokaler Guide – ich helfe dir",
+    chatWelcome:
+      "Hi, ich bin dein lokaler Ibiza-Guide. Sag mir Gruppengröße, Budget pro Person und was du suchst (Strand, Restaurant, Party, Boot oder Aktivitäten).",
     adLabel: "Werbung (Demo)",
     adBox: "Hier kommt ein dezenter Banner hin",
 
@@ -360,7 +380,10 @@ const COPY: Record<Lang, Copy> = {
     startChat: "Chat met de concierge",
     goDirect: "Snelle ideeën",
     faqLink: "FAQ",
-
+chatBrandTitle: "InfoPoint Ibiza",
+    chatBrandSubtitle: "Je lokale gids, ik help je graag",
+    chatWelcome:
+      "Hoi, ik ben je lokale gids op Ibiza. Vertel me met hoeveel jullie zijn, budget per persoon en wat je zoekt (strand, restaurant, uitgaan, boot of activiteiten).",
     adLabel: "Advertentie (demo)",
     adBox: "Hier komt een niet-opdringerige banner",
 
